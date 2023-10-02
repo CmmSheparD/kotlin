@@ -29,6 +29,9 @@ dependencies {
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:32.1.1-jre")
+
+    // JSON parser
+    implementation("com.google.code.gson:gson:2.10.1")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -43,7 +46,25 @@ application {
     mainClass.set("practice.AppKt")
 }
 
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "practice.AppKt"
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(sourceSets.main.get().output)
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter{ it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+}
+
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+tasks.named<JavaExec>("run") {
+    // Redirect stdin to running app
+    standardInput = System.`in`
 }
