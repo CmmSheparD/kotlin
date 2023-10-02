@@ -1,7 +1,6 @@
 package practice
 
 import com.google.gson.JsonParser
-
 import java.awt.Desktop
 import java.net.URI
 import java.net.http.HttpClient
