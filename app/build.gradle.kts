@@ -43,7 +43,25 @@ application {
     mainClass.set("practice.AppKt")
 }
 
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "practice.AppKt"
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(sourceSets.main.get().output)
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+}
+
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+tasks.named<JavaExec>("run") {
+    // Redirect stdin to running app
+    standardInput = System.`in`
 }
