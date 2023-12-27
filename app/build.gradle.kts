@@ -29,6 +29,12 @@ dependencies {
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:32.1.1-jre")
+
+    // CSV library
+    implementation("org.apache.commons:commons-csv:1.10.0")
+
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.+")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.+")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
